@@ -2,7 +2,7 @@ public class Board {
 
     public static final int SIZE = 4;
     public static final char EMPTY = '.';
-    //boardd
+    //board
     private char[][] quartoBoard;
 
     public Board() {
@@ -47,8 +47,22 @@ public class Board {
         }
         System.out.println();
     }
-
-
-
+    public boolean submitMove(char player,int i,int j){
+        if(i>=0&&i<SIZE&&j>=0&&j<SIZE&&quartoBoard[i][j]==EMPTY){
+            quartoBoard[i][j]=player;
+            return true;
+        }
+        return false;
+    }
+    public boolean isBoardFull() {
+        for (int i = 0; i < SIZE; i++) {
+            for (int j = 0; j < SIZE; j++) {
+                if (quartoBoard[i][j] == EMPTY) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 
 }
