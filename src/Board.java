@@ -2,7 +2,7 @@ public class Board {
 
         public static final int SIZE = 4;
         public static final char EMPTY = '.';
-
+//board
         private char[][] quartoBoard;
         public Board() {
             quartoBoard = new char[SIZE][SIZE];
