@@ -2,7 +2,6 @@ public class Board {
 
     public static final int SIZE = 4;
     public static final char EMPTY = '.';
-    //boardd
     private char[][] quartoBoard;
 
     public Board() {
@@ -33,6 +32,7 @@ public class Board {
 
         return board1;
     }
+
     public char getPosition(int i, int j) {
         return quartoBoard[i][j];
     }
@@ -43,12 +43,36 @@ public class Board {
 
     public void printTheBoard() {
         for (int i = 0; i < SIZE; i++) {
-            for (int j = 0; j < SIZE; j++);
+            for (int j = 0; j < SIZE; j++) ;
         }
         System.out.println();
     }
 
+    public boolean boardFull() {
+        for (int i = 0; i < SIZE; i++) {
+            for (int j = 0; j < SIZE; j++) {
+                if (quartoBoard[i][j] == EMPTY) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 
-
+    public boolean boardEmpty() {
+        for (int i = 0; i < SIZE; i++) {
+            for (int j = 0; j < SIZE; j++) {
+                if (quartoBoard[i][j] != EMPTY) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 
 }
+
+
+
+
+
