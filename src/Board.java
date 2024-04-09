@@ -64,7 +64,5 @@ public boolean isBoardFull() {
     }
     return true;
 }
-//project
-
 
 }
