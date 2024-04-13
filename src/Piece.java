@@ -1,4 +1,4 @@
-public class Pieces {
+public class Piece {
     // Attributes for each piece's characteristics (color, height, shape, consistency)
     // Represents the two possible colors of a piece (LIGHT, DARK)
     // Represents the two possible heights of a piece (TALL, SHORT)
