@@ -98,5 +98,14 @@ public class Board {
         return row >= 0 && row < SIZE && col >= 0 && col < SIZE;
     }
 
+    public void placePiece(int row, int col, char piece) throws IllegalArgumentException {
+
+        if (grid[row][col] != EMPTY) {
+            throw new IllegalArgumentException("Position already occupied: (" + row + ", " + col + ")");
+        }
+
+        grid[row][col] = piece;
+    }
+
 }
 
