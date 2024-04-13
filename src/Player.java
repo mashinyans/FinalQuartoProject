@@ -1,25 +1,25 @@
 public abstract class Player {
 
     public String name;
-    public boolean Winner;
+    public boolean winner;
 
     public Player(String name) {
         this.name = name;
-        this.Winner = false;
+        this.winner = false;
     }
 
     public String getName() {
         return name;
     }
 
-    public boolean isWinner() {
-        return Winner;
+    public boolean winner() {
+        return winner;
     }
 
     public void setWinner(boolean winner) {
-        this.Winner = winner;
+        this.winner = winner;
     }
 
-    // Abstract method to make a move, forcing subclasses to implement it
+
     public abstract int[] makeMove();
 }
