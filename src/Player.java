@@ -10,6 +10,9 @@ public abstract class Player {
         return name;
     }
 
+    public abstract Piece selectPiece();
+
+    public abstract int[] placePiece(Piece piece);
 
 
 }
