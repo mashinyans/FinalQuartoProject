@@ -16,19 +16,24 @@ public class GameManagement {
             System.out.println("Current board: ");
             board.printBoard();
 
-            selectedPiece = player[currentPlayer].selectPiece();
+            Piece selectedPiece = player[currentPlayer].selectPiece();
 
             switchPlayer();
 
             int[] move = player[currentPlayer].placePiece(selectedPiece);
-            board.placePiece(move[0], move[1], selectedPiece);
+            try {
+                board.placePiece(move[0], move[1], selectedPiece);
 
-            if (checkWin()) {
-                System.out.println(player[currentPlayer].getName() + "wins!");
-                break;
+                if (checkWin()) {
+                    System.out.println(player[currentPlayer].getName() + "wins!");
+                    board.printBoard();
+                    break;
+                }
+
+                switchPlayer();
+            } catch (IllegalArgumentException e) {
+                System.out.println("Invalid move: " + e.getMessage());
             }
-
-            switchPlayer();
         }
     }
 
@@ -37,6 +42,7 @@ public class GameManagement {
     }
 
     private boolean checkWin() {
-        return false;
+        //return checkRowsForWin() || checkColumnsForWin() || checkDiagonalsForWin();
     }
+
 }
