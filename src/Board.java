@@ -1,111 +1,108 @@
 public class Board {
-
-    private static final String[] BOARD_ROW = {"A", "B", "C", "D"};
-    private static final String[] BOARD_COL = {"1", "2", "3", "4"};
-    public static final int SIZE = 4;
-    public static final char EMPTY = '.';
-    private int row;
-    private int col;
-
-    private char[][] grid;
+    private Piece[][] board = new Piece[4][4];
 
     public Board() {
-        grid = new char[SIZE][SIZE];
-        initializeGrid();
     }
 
-    private void initializeGrid() {
-        for (int row = 0; row < SIZE; row++) {
-            for (int col = 0; col < SIZE; col++) {
-                grid[row][col] = EMPTY;
-            }
+    public void placePiece(Piece piece, int row, int col) throws InvalidMoveException {
+        if (this.board[row][col] != null) {
+            throw new InvalidMoveException("Position already occupied.");
+        } else {
+            this.board[row][col] = piece;
         }
     }
 
-    public void printBoard() {
-        for (int row = 0; row < SIZE; row++) {
-            for (int col = 0; col < SIZE; col++) {
-                System.out.print(grid[row][col] + " ");
+    public boolean isEmpty(int row, int col) {
+        return this.board[row][col] == null;
+    }
+
+    public void displayBoard() {
+        System.out.println("Current board:");
+        Piece[][] var1 = this.board;
+        int var2 = var1.length;
+
+        for(int var3 = 0; var3 < var2; ++var3) {
+            Piece[] row = var1[var3];
+            Piece[] var5 = row;
+            int var6 = row.length;
+
+            for(int var7 = 0; var7 < var6; ++var7) {
+                Piece piece = var5[var7];
+                System.out.print(piece != null ? this.formatPiece(piece) + " " : "- ");
             }
+
             System.out.println();
         }
+
     }
 
-
-   /* public Board(Board other) {
-        this.setRow(other.row);
-        this.setCol(other.col);
-    }*/
-
-    private Board(int rank, int file) {
-        this.setRow(rank);
-        this.setCol(file);
+    private String formatPiece(Piece piece) {
+        return String.format("%s%s%s%s", piece.isTall() ? "T" : "S", piece.isSquare() ? "Q" : "C", piece.isDark() ? "D" : "L", piece.isSolid() ? "S" : "H");
     }
 
-    public int getRow() {
-        return this.row;
+    public boolean checkWin() {
+        return this.checkRowsAndColumns() || this.checkDiagonals() || this.checkSquares();
     }
 
-    public int getCol() {
-        return this.col;
-    }
-
-    public void setRow(int row) {
-        if (row >= 0 && row < SIZE)
-            this.row = row;
-    }
-
-    public void setCol(int col) {
-        if (col >= 0 && col < SIZE)
-            this.col = col;
-    }
-
-    public String toString() {
-        return " " + (SIZE + this.col) + (SIZE - this.row);
-    }
-
-    public static Board checkColRow(int col, int row) {
-        if ((col < 0 || col > 7) || (row < 0 || row > 7)) {
-            return null;
-        }
-
-        return new Board(col, row);
-    }
-
-    public static Board checkColRowString(String position) {
-        if (position.length() != 2) {
-            return null;
-        }
-        int row = 0;
-        int col = 0;
-
-        String colString = position.substring(0, 1);
-        String rowString = position.substring(1, 2);
-
-        for (int i = 0; i <= 7; i++) {
-            if (colString.equals(BOARD_COL[i])) {
-                col = i;
-            }
-            if (rowString.equals(BOARD_ROW[i])) {
-                row = i;
+    private boolean checkRowsAndColumns() {
+        for(int i = 0; i < 4; ++i) {
+            if (this.checkLine(this.board[i][0], this.board[i][1], this.board[i][2], this.board[i][3]) || this.checkLine(this.board[0][i], this.board[1][i], this.board[2][i], this.board[3][i])) {
+                return true;
             }
         }
 
-        return checkColRow(col, row);
+        return false;
     }
 
-    public boolean isValidPosition(int row, int col) {
-        return row >= 0 && row < SIZE && col >= 0 && col < SIZE;
+    private boolean checkDiagonals() {
+        return this.checkLine(this.board[0][0], this.board[1][1], this.board[2][2], this.board[3][3]) || this.checkLine(this.board[0][3], this.board[1][2], this.board[2][1], this.board[3][0]);
     }
 
-    public void placePiece(int row, int col, char piece) throws IllegalArgumentException {
-
-        if (grid[row][col] != EMPTY) {
-            throw new IllegalArgumentException("Position already occupied: (" + row + ", " + col + ")");
+    private boolean checkSquares() {
+        for(int row = 0; row < 3; ++row) {
+            for(int col = 0; col < 3; ++col) {
+                if (this.checkLine(this.board[row][col], this.board[row][col + 1], this.board[row + 1][col], this.board[row + 1][col + 1])) {
+                    return true;
+                }
+            }
         }
 
-        grid[row][col] = piece;
+        return false;
     }
 
+    private boolean checkLine(Piece... pieces) {
+        if (pieces[0] == null) {
+            return false;
+        } else {
+            boolean sameTall = true;
+            boolean sameSquare = true;
+            boolean sameDark = true;
+            boolean sameSolid = true;
+            Piece[] var6 = pieces;
+            int var7 = pieces.length;
+
+            for(int var8 = 0; var8 < var7; ++var8) {
+                Piece p = var6[var8];
+                if (p == null || p.isTall() != pieces[0].isTall()) {
+                    sameTall = false;
+                }
+
+                if (p == null || p.isSquare() != pieces[0].isSquare()) {
+                    sameSquare = false;
+                }
+
+                if (p == null || p.isDark() != pieces[0].isDark()) {
+                    sameDark = false;
+                }
+
+                if (p == null || p.isSolid() != pieces[0].isSolid()) {
+                    sameSolid = false;
+                }
+            }
+
+            return sameTall || sameSquare || sameDark || sameSolid;
+        }
+    }
 }
+
 

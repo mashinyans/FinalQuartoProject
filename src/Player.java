@@ -1,18 +1,24 @@
+import java.util.List;
+import java.util.Scanner;
+
 public abstract class Player {
+    protected String name;
 
-    public String name;
+    public Player() {
+        this.askForName();
+    }
 
-    public Player(String name) {
-        this.name = name;
+    private void askForName() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter player's name: ");
+        this.name = scanner.nextLine();
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
-    public abstract Piece selectPiece();
+    abstract Piece selectPiece(List<Piece> var1) throws GameException;
 
-    public abstract int[] placePiece(Piece piece);
-
-
+    abstract void placePiece(Board var1, Piece var2) throws GameException, InvalidMoveException;
 }
